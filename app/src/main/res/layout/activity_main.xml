@@ -7,13 +7,21 @@
     tools:context="com.help.quickcard.qcp.MainActivity">
 
     <TextView
-        android:layout_width="10pt"
+        android:layout_width="26pt"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Hello World hi I am Khadijah!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.471" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="113dp"
+        android:layout_height="59dp"
+        android:text="ToggleButton"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="90dp" />
 
 </android.support.constraint.ConstraintLayout>
