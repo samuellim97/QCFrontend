@@ -1,4 +1,4 @@
-package com.help.quickcard.qcp;
+package com.help.quickcard.qcp.Fragments;
 
 
 import android.app.Fragment;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.android.volley.RequestQueue;
+import com.help.quickcard.qcp.MainActivity;
+import com.help.quickcard.qcp.R;
 
 /**
  * Controller for the homepage

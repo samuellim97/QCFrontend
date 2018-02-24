@@ -15,6 +15,9 @@ import org.json.JSONObject;
 import java.util.concurrent.Callable;
 
 /**
+ * QuickCardAPI is responsible for making remote
+ * Web API calls, to the server.
+ *
  * Created by shath ibrahim on 18/01/18.
  * A Simple implementation for the quickcard API
  */
@@ -37,7 +40,7 @@ public class QuickCardAPI extends WebAPI{
     public void pollReady(){
         JsonObjectRequest req = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://192.168.43.42:8080/clients/1",
+                "http://"+getUrl()+":"+getPort()+"/",
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override

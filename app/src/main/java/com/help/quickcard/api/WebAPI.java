@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 
 public class WebAPI {
     private String url;
+    private int port;
 
     protected RequestQueue queue;
 
@@ -25,5 +26,13 @@ public class WebAPI {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public int getPort() {
+        return port;
     }
 }

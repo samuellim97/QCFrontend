@@ -1,58 +1,22 @@
 package com.help.quickcard.qcp;
 
-import android.app.FragmentManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
-import android.nfc.tech.MifareClassic;
-import android.nfc.tech.Ndef;
-import android.nfc.tech.NfcA;
-import android.service.voice.VoiceInteractionSession;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.help.quickcard.api.NdefReaderTask;
+import com.help.quickcard.api.QuickCardAPI;
+import com.help.quickcard.qcp.Fragments.ChildAccountViewFragment;
+import com.help.quickcard.qcp.Fragments.TransactionViewFragment;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private int port = 8080;
 
     private RequestQueue queue;
+    private QuickCardAPI api;
 
 
     /**
@@ -77,31 +42,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //ViewGroup MasterView = new LinearLayout(this);
-        //getLayoutInflater().inflate(R.layout.main_view,
-        //                            MasterView);
 
         setContentView(R.layout.main_view);
 
         queue = Volley.newRequestQueue(this);
-        /*JsonRequest req = new JsonObjectRequest(
-                    Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>(){
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.i(TAG, "onResponse: HTTP Response received");
-                        }
-                    },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //do nothing
-                    }
-		    });*/
+        api = new QuickCardAPI(queue);
+        api.setUrl(url);
+        api.setPort(port);
+        //sendRequest();
 
-
-        //queue.start();
-        sendRequest();
         //NavBar navBar = new NavBar(this);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -115,38 +64,25 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(MasterView);
     }
 
+
     public void sendRequest(){
         Log.i(TAG, "onCreate: Creating http request...");
-        StringRequest req = new StringRequest(
-                Request.Method.GET,
-                "http://192.168.43.42:8080",
-                new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        //logv response
-                        Log.i(TAG, "onResponse: Response received: "+ response);
-                    }
-                }
-                ,new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "onErrorResponse: error occurred: "+ error);
-            }
-        }
-        );
-        queue.add(req);
+        api.pollReady();
     }
 
     private void setupViewPager(ViewPager viewPager){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomepageFragment(), "Home");
-        adapter.addFragment(new CardPageFragment(), "NFC");
+        //adapter.addFragment(new HomepageFragment(), "Home");
+        //adapter.addFragment(new CardPageFragment(), "NFC");
+        adapter.addFragment(new TransactionViewFragment(), "Transaction History");
+        adapter.addFragment(new ChildAccountViewFragment(), "Child Accounts");
         viewPager.setAdapter(adapter);
     }
 
     /**
      * ViewPager adapter for the main screen
      * Used to implement tabs.
+     *
      */
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -177,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
             mFragmentTitleList.add(title);
         }
     }
+
+
     //@Override
    /* protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param intent
      */
-    /*private void handleIntent(Intent intent){
+   /* private void handleIntent(Intent intent){
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
 
@@ -308,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("MFC", "handleIntent: "+mfc);
         }
 
-
+*/
     //}*/
 
     //To display the UID
