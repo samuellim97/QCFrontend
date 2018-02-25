@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.help.quickcard.api.QuickCardAPI;
 import com.help.quickcard.qcp.Fragments.ChildAccountViewFragment;
+import com.help.quickcard.qcp.Fragments.HomepageFragment;
 import com.help.quickcard.qcp.Fragments.TransactionViewFragment;
 
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             //return super.getPageTitle(position);
-            return position + "-" + mFragmentTitleList.get(position);
+            return mFragmentTitleList.get(position);
         }
 
         public void addFragment(Fragment fragment, String title){

@@ -1,4 +1,4 @@
-package com.help.quickcard.qcp;
+package com.help.quickcard.qcp.adapters;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -26,6 +26,8 @@ public class TransactionItemsAdapter extends ArrayAdapter<UserTransaction>{
                                    @NonNull List<UserTransaction> objects) {
         super(context, 0, objects);
     }
+
+
 
 
     @NonNull
