@@ -1,5 +1,7 @@
 package com.help.quickcard.qcp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.help.quickcard.api.QuickCardAPI;
 import com.help.quickcard.qcp.Fragments.ChildAccountViewFragment;
-import com.help.quickcard.qcp.Fragments.HomepageFragment;
 import com.help.quickcard.qcp.Fragments.TransactionViewFragment;
 
 import java.util.ArrayList;
@@ -34,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     private RequestQueue queue;
     private QuickCardAPI api;
+
+    private boolean isLoggedin = false;
+
+    public boolean loggedInObject;
 
 
     /**
@@ -65,6 +70,20 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(MasterView);
     }
 
+    private void login(Context context){
+        Intent intent = new Intent(context, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!isLoggedin)
+        {
+            login(getBaseContext());
+            isLoggedin = true;
+        }
+    }
 
     public void sendRequest(){
         Log.i(TAG, "onCreate: Creating http request...");
